@@ -1,8 +1,0 @@
-<!-- CSS media query within a style sheet -->
-<style>
-@media (max-width: 600px) {
-  .facet_sidebar {
-    display: none;
-  }
-}
-</style>

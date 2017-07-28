@@ -1,1 +1,6 @@
-config.py
+database/
+migrations/
+blog_env/
+__pycache__/
+app/__pycache__/
+.idea/
