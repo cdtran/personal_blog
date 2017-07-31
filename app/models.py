@@ -1,11 +1,9 @@
-from app import db
+from app import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
-import flask_whooshalchemy as whooshalchemy
 
 
 class Post(db.Model):
-    __searchable__ = ['title', 'body']
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), unique=True)
@@ -57,3 +55,4 @@ class Users(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
+

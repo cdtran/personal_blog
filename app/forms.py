@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField,\
     BooleanField, ValidationError
-from wtforms.validators import DataRequired, Length
-from flask_ckeditor import CKEditor
+from wtforms.validators import DataRequired, Length, Email
 from .models import Post
 
 
@@ -12,7 +11,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 
-class EditorForm(FlaskForm, CKEditor):
+class EditorForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(1, 140)])
     slug = StringField('Slug', validators=[DataRequired(), Length(1, 94)])
     body = TextAreaField()
@@ -27,3 +26,12 @@ class EditorForm(FlaskForm, CKEditor):
 
 class SearchForm(FlaskForm):
     search = StringField('search', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send Message')

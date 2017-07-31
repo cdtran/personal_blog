@@ -1,9 +1,15 @@
 from app import app, db
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, g
 from flask_login import login_user, login_required, logout_user
-from .forms import LoginForm, EditorForm
+from .forms import LoginForm, EditorForm, SearchForm, ContactForm
 from .models import Users, Post
 from datetime import datetime
+from .email import send_contact
+
+
+@app.before_request
+def before_request():
+    g.search_form = SearchForm()
 
 
 @app.route('/')
@@ -18,9 +24,15 @@ def about():
     return render_template('about.html', page='about')
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html', page='contact')
+    form = ContactForm()
+    if form.validate_on_submit():
+        send_contact(name=form.name.data, email=form.email.data,
+                     subject=form.subject.data, message=form.message.data)
+        redirect(url_for('home'))
+        flash('Message Sent')
+    return render_template('contact.html', page='contact', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -46,6 +58,7 @@ def post():
                     updated_timestamp=datetime.utcnow())
         db.session.add(post)
         db.session.commit()
+        redirect(url_for('detail', slug=post.slug))
     return render_template('post.html', form=form)
 
 
@@ -102,3 +115,29 @@ def not_found_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    if not g.search_form.validate_on_submit():
+        return redirect(url_for('home'))
+    return redirect(url_for('search_results', query=g.search_form.search.data))
+
+
+@app.route('/search_results/<query>')
+def search_results(query):
+    results = Post.query.filter(Post.title.ilike('%' + query + '%') |
+                                Post.body.ilike('%' + query + '%')).all()
+    return render_template('search_results.html', query=query, results=results)
+
+
+@app.route('/<slug>/delete')
+@login_required
+def delete_post(slug):
+    post = Post.query.filter_by(slug=slug).first()
+    if post == None:
+        flash('Can\'t delete post %s' % slug)
+        redirect(url_for('home'))
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('home'))
