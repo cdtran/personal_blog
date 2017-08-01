@@ -1,10 +1,14 @@
     {% if post.published == True %}
-    <ul class="list-unstyled">
-        <li>
-            <h2><a href="{{ url_for('detail', slug=post.slug) }}">{{ post.title }}</a></h2>
+    <tr>
+            <td>
+                <h2><a href="{{ url_for('detail', slug=post.slug) }}">{{ post.title }}</a></h2>
+            </td>
+            <td>
             <p><b>Created:</b> {{ post.created_timestamp.strftime('%b %d %Y') }}
                 <b>Updated:</b> {{ post.updated_timestamp.strftime('%b %d %Y') }}</p>
+            </td>
+            <td>
             <p> {{ post.body|striptags|truncate(100) }}</p>
-        </li>
-    </ul>
+            </td>
+    </tr>
     {% endif %}

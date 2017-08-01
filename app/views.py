@@ -15,11 +15,12 @@ def before_request():
 
 @app.route('/')
 @app.route('/home')
-@app.route('/home/<int:page>')
-def home(page=1):
+@app.route('/home/<int:page_num>')
+def home(page_num=1):
     posts = Post.query.filter_by(published=True)\
-        .order_by(Post.updated_timestamp.desc()).paginate(page, POSTS_PER_PAGE,
-                                                          False).items
+        .order_by(Post.updated_timestamp.desc()).paginate(page_num,
+                                                          POSTS_PER_PAGE,
+                                                          False)
     return render_template('home.html', page='home', posts=posts)
 
 
@@ -129,10 +130,13 @@ def search():
 
 
 @app.route('/search_results/<query>')
-def search_results(query):
+@app.route('/search_results/<query>/<int:page_num>')
+def search_results(query, page_num=1):
     results = Post.query.filter(Post.title.ilike('%' + query + '%') |
                                 Post.body.ilike('%' + query + '%'))\
-        .order_by(Post.updated_timestamp.desc()).all()
+        .order_by(Post.updated_timestamp.desc()).paginate(page_num,
+                                                          POSTS_PER_PAGE,
+                                                          False)
     return render_template('search_results.html', query=query, results=results)
 
 

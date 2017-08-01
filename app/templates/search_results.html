@@ -2,7 +2,17 @@
 
 {% block content %}
   <h1>Search results for "{{ query }}":</h1>
-  {% for post in results %}
+  {% for post in results.items %}
     {% include 'result_list.html' %}
   {% endfor %}
+{% if results.has_prev %}
+<a href="{{ url_for('search_results', page_num=results.prev_num, query=query) }}">
+    &lt;&lt; Newer posts
+</a>{% else %}&lt;&lt; Newer posts
+{% endif %} |
+{% if results.has_next %}
+<a href="{{ url_for('search_results', page_num=results.next_num, query=query) }}">
+    Older posts &gt;&gt;
+</a>{% else %}Older posts &gt;&gt;
+{% endif %}
 {% endblock %}
