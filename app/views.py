@@ -5,6 +5,7 @@ from .forms import LoginForm, EditorForm, SearchForm, ContactForm
 from .models import Users, Post
 from datetime import datetime
 from .email import send_contact
+from config import POSTS_PER_PAGE
 
 
 @app.before_request
@@ -14,8 +15,11 @@ def before_request():
 
 @app.route('/')
 @app.route('/home')
-def home():
-    posts = Post.query.filter_by(published=True)
+@app.route('/home/<int:page>')
+def home(page=1):
+    posts = Post.query.filter_by(published=True)\
+        .order_by(Post.updated_timestamp.desc()).paginate(page, POSTS_PER_PAGE,
+                                                          False).items
     return render_template('home.html', page='home', posts=posts)
 
 
@@ -127,7 +131,8 @@ def search():
 @app.route('/search_results/<query>')
 def search_results(query):
     results = Post.query.filter(Post.title.ilike('%' + query + '%') |
-                                Post.body.ilike('%' + query + '%')).all()
+                                Post.body.ilike('%' + query + '%'))\
+        .order_by(Post.updated_timestamp.desc()).all()
     return render_template('search_results.html', query=query, results=results)
 
 

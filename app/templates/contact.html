@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Contact Form</h1>
-    <div>
-        <p><small>Please fill out the following</small></p>
+        <h1>Contact Form</h1>
     <form action="/contact" method="post" name="contact">
           {{ form.hidden_tag() }}
         <div class="form-group">
@@ -22,5 +20,4 @@
           {{ form.submit }}
         </p>
       </form>
-    </div>
 {% endblock %}

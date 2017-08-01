@@ -4,3 +4,4 @@ blog_env/
 __pycache__/
 app/__pycache__/
 .idea/
+config.py

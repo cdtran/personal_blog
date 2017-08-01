@@ -3,8 +3,6 @@
 {% block content %}
   <h1>Search results for "{{ query }}":</h1>
   {% for post in results %}
-    {% if post.published == True %}
-        <li><a href="{{ url_for('detail', slug=post.slug) }}">{{ post.title }}</a></li>
-    {% endif %}
+    {% include 'result_list.html' %}
   {% endfor %}
 {% endblock %}

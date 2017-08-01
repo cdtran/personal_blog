@@ -9,14 +9,14 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 WTF_CSRF_ENABLED = True
-SECRET_KEY = 'secret'
+SECRET_KEY =
 
 MAIL_SERVER = 'smtp.gmail.com'
 MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
-MAIL_USERNAME = 'ktranman@gmail.com'
-MAIL_PASSWORD = 'xmxcmvbyriifmngz'
-EMAIL_RECIPIENT = ['ktranman@gmail.com']
+MAIL_USERNAME =
+MAIL_PASSWORD =
+EMAIL_RECIPIENT = []
 
-POSTS_PER_PAGE = 4
+POSTS_PER_PAGE =
