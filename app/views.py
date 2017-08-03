@@ -35,8 +35,8 @@ def contact():
     if form.validate_on_submit():
         send_contact(name=form.name.data, email=form.email.data,
                      subject=form.subject.data, message=form.message.data)
-        redirect(url_for('home'))
         flash('Message Sent')
+        return redirect(url_for('home'))
     return render_template('contact.html', page='contact', form=form)
 
 
