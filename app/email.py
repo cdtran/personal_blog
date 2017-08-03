@@ -9,6 +9,7 @@ def send_async_email(app, message):
     with app.app_context():
         mail.send(message)
 
+
 @async
 def send_email(subject, sender, recipients, text_body):
     msg = Message(subject, sender=sender, recipients=recipients)
