@@ -15,7 +15,7 @@ class EditorForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(1, 140)])
     slug = StringField('Slug', validators=[DataRequired(), Length(1, 94)])
     body = TextAreaField()
-    published = BooleanField('Publish?')
+    published = BooleanField('Publish?', default=False)
     submit = SubmitField('Submit')
 
     def validate_slug(self, field):

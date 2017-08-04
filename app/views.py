@@ -58,7 +58,7 @@ def post():
     form = EditorForm()
     if form.validate_on_submit():
         post = Post(title=form.title.data, body=form.body.data,
-                    slug=form.slug.data, published=form.title.data,
+                    slug=form.slug.data, published=form.published.data,
                     created_timestamp=datetime.utcnow(),
                     updated_timestamp=datetime.utcnow())
         db.session.add(post)
@@ -105,9 +105,13 @@ def edit(slug):
 
 
 @app.route('/unpublished')
+@app.route('/unpublished/<int:page_num>')
 @login_required
-def unpublished():
-    posts = Post.query.filter_by(published=False)
+def unpublished(page_num=1):
+    posts = Post.query.filter_by(published=False)\
+        .order_by(Post.updated_timestamp.desc()).paginate(page_num,
+                                                          POSTS_PER_PAGE,
+                                                          False)
     return render_template('unpublished.html', posts=posts)
 
 
