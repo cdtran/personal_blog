@@ -63,7 +63,7 @@ def post():
                     updated_timestamp=datetime.utcnow())
         db.session.add(post)
         db.session.commit()
-        redirect(url_for('detail', slug=post.slug))
+        return redirect(url_for('detail', slug=post.slug))
     return render_template('post.html', form=form)
 
 
