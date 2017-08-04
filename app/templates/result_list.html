@@ -1,5 +1,4 @@
-    {% if post.published == True %}
-    <tr>
+ <tr>
             <td>
                 <h2><a href="{{ url_for('detail', slug=post.slug) }}">{{ post.title }}</a></h2>
             </td>
@@ -10,5 +9,4 @@
             <td>
             <p> {{ post.body|striptags|truncate(100) }}</p>
             </td>
-    </tr>
-    {% endif %}
+ </tr>
