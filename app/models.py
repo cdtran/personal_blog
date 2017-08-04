@@ -8,7 +8,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), unique=True)
     body = db.Column(db.Text)
-    published = db.Column(db.Boolean, index=True)
+    published = db.Column(db.Boolean, index=True, default=False)
     slug = db.Column(db.String(140), unique=True)
     created_timestamp = db.Column(db.DateTime, index=True)
     updated_timestamp = db.Column(db.DateTime, index=True)
